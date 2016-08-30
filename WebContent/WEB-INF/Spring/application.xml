@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+	
+	<bean id="annotatedSessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		
+		<property name="dataSource" ref="dataSource"/>
+		
+		<property name="annotatedClasses">
+			<list>
+				<value>com.interfac.springdemo.employee.model.Employee</value>
+				<value>com.interfac.springdemo.department.model.Department</value>
+			</list>
+		</property>
+		
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+<!-- 				<prop key="hibernate.current_session_context_class">thread</prop> -->
+				<prop key="hibernate.show_sql">false</prop>
+			</props>
+		</property>
+		
+<!-- 		<property name="mappingResources"> -->
+<!-- 			<list> -->
+<!-- 				<value>Employee.hbm.xml</value> -->
+<!-- 				<value>Department.hbm.xml</value> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+	</bean>
+	
+<!-- 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >  -->
+	<bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource" >
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/emp"/>
+		<property name="username" value="root"/>
+		<property name="password" value="root"/>
+	</bean>
+	
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
+		<property name="sessionFactory" ref="annotatedSessionFactory"/>
+	</bean>
+
+	<bean id="employeeDAO" class="com.interfac.springdemo.employee.dataaccess.EmployeeDAO">
+		<property name="hibernateTemplate" ref="hibernateTemplate"/>
+	</bean>
+	
+	<bean id="departmentDAO" class="com.interfac.springdemo.department.dataaccess.DepartmentDAO">
+		<property name="hibernateTemplate" ref="hibernateTemplate"/>
+	</bean>
+	
+	<bean id="employeeServices" class="com.interfac.springdemo.employee.services.EmployeeServices">
+		<property name="employeeDao" ref="employeeDAO"/>
+	</bean>
+	
+	<bean id="employeeController" class="com.interfac.springdemo.employee.controllers.EmployeeController">
+		<property name="employeeServices" ref="employeeServices"/>
+	</bean>
+	
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="annotatedSessionFactory" />
+	</bean>
+</beans>

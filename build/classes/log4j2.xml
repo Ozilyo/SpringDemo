@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="TRACE">
+	<Appenders>
+		<Console name="console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+		</Console>
+<!-- 		<File name="file" fileName="logs/trace.log"> -->
+<!-- 			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" /> -->
+<!-- 		</File> -->
+<!-- 		<File name="MyFile" fileName="logs/trace.log"> -->
+<!-- 			<PatternLayout> -->
+<!-- 				<Pattern>%d %p %c{1.} [%t] %m%n</Pattern> -->
+<!-- 			</PatternLayout> -->
+<!-- 		</File> -->
+<!-- 		<Async name="Async"> -->
+<!-- 			<AppenderRef ref="MyFile" /> -->
+<!-- 		</Async> -->
+	</Appenders>
+
+	<Loggers>
+		<Root level="trace">
+		
+<!-- 			<AppenderRef ref="MyFile" level=""/> -->
+			<AppenderRef ref="console" />
+		</Root>
+	</Loggers>
+</Configuration>
+
+
+<!-- <Configuration status="TRACE"> -->
+<!--   <Appenders> -->
+<!--    <File name="infolog" fileName="./logs/info.log"> -->
+<!--        <PatternLayout pattern="%d{yyyy MM dd, HH:mm:ss a} %5p [%t] - %c.%M (Line:%L)- %m%n"/> -->
+<!--    </File> -->
+<!--    <File name="errorlog" fileName="./log/error.log"> -->
+<!--        <PatternLayout pattern="%d{yyyy MM dd, HH:mm:ss a} %5p [%t] - %c.%M (Line:%L)- %m%n"/> -->
+<!--    </File> -->
+<!--   </Appenders> -->
+<!--   <Loggers> -->
+<!--     <Root level="TRACE"> -->
+<!--         <AppenderRef ref="errorlog" level="ERROR"/>  -->
+<!--          <AppenderRef ref="infolog" level="TRACE"/>  -->
+<!--     </Root> -->
+<!--   </Loggers> -->
+<!-- </Configuration> -->
